@@ -1,0 +1,91 @@
+name: Scrape fantacalcio.it
+
+# M3 — design doc DossierFanta v2.5, Cap.7.
+# Pipeline notturna: scarica il listone Serie A da fantacalcio.it,
+# lo parsa, valida il risultato, pubblica players.json su GitHub Releases.
+# L'app DossierFanta all'avvio interpella /releases/latest di questo repo
+# per scaricare il file JSON più recente.
+
+on:
+  schedule:
+    # 03:00 CET ogni notte.
+    # In inverno CET = UTC+1 → 02:00 UTC.
+    # In estate CEST = UTC+2 → 01:00 UTC.
+    # Usiamo '0 1 * * *' (01:00 UTC) come compromesso: gira alle 02:00/03:00
+    # locali a seconda dell'ora legale, comunque prima dell'apertura mattutina
+    # del calciomercato e dell'utente tipico.
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+    # trigger manuale per test e rigenerazione on-demand
+
+permissions:
+  contents: write
+  # 'contents: write' è richiesto da softprops/action-gh-release per creare
+  # release e tag. Non viene concesso nessun altro scope.
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: scraper/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r scraper/requirements.txt
+
+      - name: Run scraper
+        run: python scraper/scrape_fantacalcio.py
+
+      - name: Validate output (JSON parseable)
+        run: |
+          python - <<'EOF'
+          import json
+          with open('players.json', 'r', encoding='utf-8') as f:
+              data = json.load(f)
+          assert 'players' in data, "manca chiave 'players'"
+          assert 400 <= len(data['players']) <= 800, \
+              f"players count out of range: {len(data['players'])}"
+          print(f"OK: {len(data['players'])} giocatori, versione {data.get('version')}")
+          EOF
+
+      - name: Run unit tests (regression)
+        run: |
+          pip install pytest
+          python scraper/test_scraper.py -v
+
+      - name: Compute version tag
+        id: version
+        run: |
+          HASH=$(sha256sum players.json | cut -c1-12)
+          DATE=$(date -u +%Y-%m-%d)
+          TAG="data-${DATE}-${HASH}"
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+          echo "name=Listone Serie A ${DATE}" >> $GITHUB_OUTPUT
+          echo "hash=${HASH}" >> $GITHUB_OUTPUT
+          echo "computed tag: ${TAG}"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: ${{ steps.version.outputs.name }}
+          files: players.json
+          body: |
+            Auto-generated listone from fantacalcio.it
+
+            - Date: ${{ steps.version.outputs.tag }}
+            - SHA256: ${{ steps.version.outputs.hash }}
+            - Source: https://www.fantacalcio.it/quotazioni-fantacalcio
+
+            L'app DossierFanta all'avvio scarica questo file via
+            api.github.com/repos/{owner}/dossier-fanta-data/releases/latest
+            e applica il diff con auto-archiviazione (vedi M3, Cap.7 design doc).
+          prerelease: false
+          draft: false

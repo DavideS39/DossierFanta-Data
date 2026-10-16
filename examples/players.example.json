@@ -1,0 +1,33 @@
+{
+  "version": "2026-10-13",
+  "source": "fantacalcio.it",
+  "scraped_at": "2026-10-13T01:00:00Z",
+  "stats": {
+    "players_count": 500,
+    "teams_count": 20,
+    "fvm_min": 1,
+    "fvm_max": 50
+  },
+  "players": [
+    { "name": "Lautaro Martinez", "team": "Inter", "ruolo_fanta": "A", "ruolo_reale": "Punta", "fvm": 38, "quotazione_ufficiale": 65 },
+    { "name": "Marcus Thuram", "team": "Inter", "ruolo_fanta": "A", "ruolo_reale": "Punta", "fvm": 34, "quotazione_ufficiale": 58 },
+    { "name": "Nicolò Barella", "team": "Inter", "ruolo_fanta": "C", "ruolo_reale": "Centrocampista", "fvm": 30, "quotazione_ufficiale": 52 },
+    { "name": "Alessandro Bastoni", "team": "Inter", "ruolo_fanta": "D", "ruolo_reale": "Difensore", "fvm": 26, "quotazione_ufficiale": 45 },
+    { "name": "Yann Sommer", "team": "Inter", "ruolo_fanta": "P", "ruolo_reale": "Portiere", "fvm": 8, "quotazione_ufficiale": 15 },
+    { "name": "Dušan Vlahović", "team": "Juventus", "ruolo_fanta": "A", "ruolo_reale": "Punta", "fvm": 28, "quotazione_ufficiale": 48 },
+    { "name": "Federico Chiesa", "team": "Juventus", "ruolo_fanta": "A", "ruolo_reale": "Ala", "fvm": 26, "quotazione_ufficiale": 42 },
+    { "name": "Rafael Leão", "team": "Milan", "ruolo_fanta": "A", "ruolo_reale": "Ala", "fvm": 36, "quotazione_ufficiale": 60 },
+    { "name": "Mike Maignan", "team": "Milan", "ruolo_fanta": "P", "ruolo_reale": "Portiere", "fvm": 14, "quotazione_ufficiale": 22 },
+    { "name": "Theo Hernández", "team": "Milan", "ruolo_fanta": "D", "ruolo_reale": "Terzino sinistro", "fvm": 27, "quotazione_ufficiale": 46 },
+    { "name": "Khvicha Kvaratskhelia", "team": "Napoli", "ruolo_fanta": "A", "ruolo_reale": "Ala", "fvm": 35, "quotazione_ufficiale": 58 },
+    { "name": "Victor Osimhen", "team": "Napoli", "ruolo_fanta": "A", "ruolo_reale": "Punta", "fvm": 40, "quotazione_ufficiale": 70 },
+    { "name": "Stanislav Lobotka", "team": "Napoli", "ruolo_fanta": "C", "ruolo_reale": "Regista", "fvm": 18, "quotazione_ufficiale": 28 },
+    { "name": "Paulo Dybala", "team": "Roma", "ruolo_fanta": "A", "ruolo_reale": "Trequartista", "fvm": 26, "quotazione_ufficiale": 42 },
+    { "name": "Lorenzo Pellegrini", "team": "Roma", "ruolo_fanta": "C", "ruolo_reale": "Centrocampista", "fvm": 16, "quotazione_ufficiale": 26 },
+    { "name": "Ademola Lookman", "team": "Atalanta", "ruolo_fanta": "A", "ruolo_reale": "Ala", "fvm": 25, "quotazione_ufficiale": 38 },
+    { "name": "Teun Koopmeiners", "team": "Atalanta", "ruolo_fanta": "C", "ruolo_reale": "Centrocampista", "fvm": 20, "quotazione_ufficiale": 32 },
+    { "name": "Riccardo Calafiori", "team": "Bologna", "ruolo_fanta": "D", "ruolo_reale": "Difensore", "fvm": 12, "quotazione_ufficiale": 18 },
+    { "name": "Joshua Zirkzee", "team": "Bologna", "ruolo_fanta": "A", "ruolo_reale": "Punta", "fvm": 15, "quotazione_ufficiale": 22 },
+    { "name": "Andrea Cambiaso", "team": "Juventus", "ruolo_fanta": "D", "ruolo_reale": "Terzino sinistro", "fvm": 14, "quotazione_ufficiale": 20 }
+  ]
+}

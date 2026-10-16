@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://dossierfanta.github.io/dossier-fanta-data/schema/players.schema.json",
+  "title": "DossierFanta players.json",
+  "description": "Schema del file players.json generato dallo scraper fantacalcio.it (M3, Cap.7 design doc).",
+  "type": "object",
+  "required": ["version", "source", "scraped_at", "players"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "description": "Data dello scraping in formato YYYY-MM-DD"
+    },
+    "source": {
+      "type": "string",
+      "const": "fantacalcio.it"
+    },
+    "scraped_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC timestamp del momento di scraping"
+    },
+    "stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "players_count": { "type": "integer", "minimum": 400, "maximum": 800 },
+        "teams_count": { "type": "integer", "minimum": 20, "maximum": 20 },
+        "fvm_min": { "type": ["integer", "null"], "minimum": 1, "maximum": 100 },
+        "fvm_max": { "type": ["integer", "null"], "minimum": 1, "maximum": 100 }
+      },
+      "required": ["players_count", "teams_count", "fvm_min", "fvm_max"]
+    },
+    "players": {
+      "type": "array",
+      "minItems": 400,
+      "maxItems": 800,
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "description": "Cognome + nome, normalizzato capitalize + trim"
+          },
+          "team": {
+            "type": ["string", "null"],
+            "description": "Squadra Serie A (20 totali)"
+          },
+          "ruolo_fanta": {
+            "type": ["string", "null"],
+            "enum": ["P", "D", "C", "A", null],
+            "description": "Ruolo fantacalcio: Portiere/Difensore/Centrocampista/Attaccante"
+          },
+          "ruolo_reale": {
+            "type": ["string", "null"],
+            "description": "Ruolo tattico reale dal sito (es. 'Punta', 'Terzino sinistro')"
+          },
+          "fvm": {
+            "type": ["integer", "null"],
+            "minimum": 1,
+            "maximum": 100,
+            "description": "FantaValoreMedio da listone, adattato a budget 500"
+          },
+          "quotazione_ufficiale": {
+            "type": ["integer", "null"],
+            "minimum": 1,
+            "maximum": 200,
+            "description": "Prezzo ufficiale fantacalcio.it"
+          }
+        }
+      }
+    }
+  }
+}
